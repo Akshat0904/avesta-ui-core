@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"lib": ["es2021"], //decides what typescript definitions are to be included for built-in APIs. For more info https://www.typescriptlang.org/tsconfig#lib
+		"module": "CommonJS", //decides what module format will be used in generated code after compiling. For more info https://www.typescriptlang.org/tsconfig#module
+		"target": "es2021", //decides the amount of polyfilling required. This depends on the node version you plan to use in project that consumes this. More info https://www.typescriptlang.org/tsconfig#module
+		"jsx": "react-jsx",
+		"skipLibCheck": true,
+		"outDir": "./dist",
+		"moduleResolution": "node",
+		"removeComments": true,
+		// "noImplicitAny": true,
+		"strictNullChecks": true,
+		// "strictFunctionTypes": true,
+		// "noImplicitThis": true,
+		// "noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"baseUrl": ".",
+		"declaration": true,
+		"paths": {
+			"@shared/*": ["./src/shared/*"],
+			"@listingSr/*": ["./src/modules/listingSr/*"],
+			"@searchResult/*": ["./src/modules/searchResult/*"],
+			"@newDevelopment/*": ["./src/modules/newDevelopment/*"],
+			"@calculator/*": ["./src/modules/calculator/*"],
+			"@schoolCatchment/*": ["./src/modules/schoolCatchment/*"],
+			"@findAgent/*": ["./src/modules/findAgent/*"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx"],
+	"exclude": ["node_modules"]
+}
