@@ -31,7 +31,7 @@ jobs:
               with:
                   node-version: 16
                   registry-url: https://npm.pkg.github.com/
-                  scope: '@realestateview'
+                  scope: '@Akshat0904'
                   cache: 'npm'
             - name: Install dependencies
               run: npm ci
