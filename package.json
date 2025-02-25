@@ -1,0 +1,95 @@
+{
+	"name": "@Akshat0904/avesta-ui-core",
+	"version": "10.4.1",
+	"description": "This repo holds functions which will be used in all ui/frontend projects",
+	"module": "dist/index.js",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"sideEffects": false,
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com/@Akshat0904"
+	},
+	"engineStrict": true,
+	"engines": {
+		"node": ">=16.14.0",
+		"npm": ">=8.3.1"
+	},
+	"scripts": {
+		"build": "rimraf dist && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+		"watch": "tsc --watch --project tsconfig.json & nodemon",
+		"prepare": "husky install",
+		"pre-commit": "lint-staged",
+		"lint": "eslint src/**/*.{tsx,ts,js,jsx}",
+		"lint-fix": "eslint --fix src/**/*.{tsx,ts,js,jsx}",
+		"prerelease": "./pre-release.sh",
+		"release": "npm run generate-docs && npm run build && standard-version && npm publish",
+		"typecheck": "tsc --project tsconfig.json --noEmit",
+		"generate-docs": "ts-node scripts/ensureDocDirs.ts && ts-node scripts/generateModuleDocs.ts",
+		"generate-module-docs": "ts-node scripts/generateModuleDocs.ts"
+	},
+	"nodemonConfig": {
+		"watch": [
+			"dist"
+		],
+		"ext": "js",
+		"exec": "tsc-alias -p tsconfig.json"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.19.1",
+		"@babel/preset-env": "^7.19.1",
+		"@babel/preset-typescript": "^7.18.6",
+		"@commitlint/cli": "^17.0.2",
+		"@commitlint/config-conventional": "^17.0.2",
+		"@types/jest": "^29.5.14",
+		"@types/lodash-es": "^4.17.12",
+		"@types/react": "^17.0.41",
+		"@typescript-eslint/eslint-plugin": "^5.25.0",
+		"@typescript-eslint/parser": "^5.25.0",
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-react": "^7.34.1",
+		"eslint-plugin-unicorn": "^42.0.0",
+		"husky": "^8.0.1",
+		"jest": "^29.7.0",
+		"lint-staged": "^12.4.1",
+		"nodemon": "^3.1.0",
+		"prettier": "^2.6.2",
+		"rimraf": "^3.0.2",
+		"standard-version": "^9.5.0",
+		"ts-jest": "^29.2.5",
+		"ts-node-dev": "^2.0.0",
+		"tsc-alias": "^1.6.7",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^4.6.4",
+		"ts-node": "^10.9.1"
+	},
+	"lint-staged": {
+		"src/**/*.{ts,tsx,js,jsx}": [
+			"prettier --write"
+		],
+		"src/**/*.css": [
+			"prettier --write"
+		]
+	},
+	"files": [
+		"dist",
+		"src",
+		"modules"
+	],
+	"dependencies": {
+		"@realestateview/avesta-js-core": "^11.0.0",
+		"lodash-es": "^4.17.21",
+		"moment": "^2.30.1"
+	},
+	"peerDependencies": {
+		"@reduxjs/toolkit": "^1.9.5",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-redux": "^8.0.5"
+	},
+	"repository": "github:YOUR_GITHUB_USERNAME/avesta-ui-core"
+}

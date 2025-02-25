@@ -1,0 +1,67 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: avesta-ui-core
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    create-github-release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/checkout@v2
+            - uses: ncipollo/release-action@v1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  allowUpdates: true
+
+    build-and-publish:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  registry-url: https://npm.pkg.github.com/
+                  scope: '@realestateview'
+                  cache: 'npm'
+            - name: Install dependencies
+              run: npm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PKG_REGISTRY_READ_TOKEN}}
+            - name: Generate Documentation
+              run: npm run generate-docs
+            - name: Build
+              run: npm run build
+            - name: Determine if pre-release
+              id: pre-release
+              run: |
+                  if [[ "${GITHUB_REF}" == *"-"* ]]; then
+                    echo "is_prerelease=true" >> $GITHUB_ENV
+                  else
+                    echo "is_prerelease=false" >> $GITHUB_ENV
+                  fi
+            - name: Extract version number
+              id: extract_version
+              run: |
+                  version=$(node -p "require('./package.json').version")
+                  echo "version=$version" >> $GITHUB_ENV
+            - name: Publish
+              run: |
+                  if [ "${{ env.is_prerelease }}" == "true" ]; then
+                    echo "Publishing pre-release version(unstable) to github registry"
+                    npm publish --tag next-${{ env.version }}
+                  else
+                    echo "Publishing stable version to github registry"
+                    npm publish
+                  fi
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PKG_REGISTRY_WRITE_TOKEN}}
